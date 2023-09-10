@@ -1,0 +1,197 @@
+                                       DATA STRUCTURE-ASSIGNMENT 2
+                                 ======================================
+1 Retrieving The Trump
+======================
+we have created 3 functions 
+
+ADD_element - this will add a new node in list
+delete      - this will delete a last node of list
+GetTrump    - this will give the mid value(s) of list
+
+In ADD function we will create a node
+if list is empty then head will be NULL,this new node will become the head of the list
+counting every addition of node and storing each node's data in vector array
+if head is not NULL then we will traverse the whole list to check either this new node's data is either already existing or not
+if new node's data is not exist in list then we will add this new node in our list,also count it and store its data in our vector array
+if new node's data is already exist in list,then we will not add this new node in list
+
+delete function from linked list
+if head is NULL,means list is empty and we cannot perform delete operation
+otherwise we will traverse the list till the last node
+we will delete the last node
+also we will delete the data of the last list from vector array
+and will decrease our counter by 1
+after perform this operation if our counter is 0,means our list is empty then we will set our head to NULL
+
+print mid element(s) of linked list
+if counter is 0,means list is empty and this function will not give the mid element of list
+if counter%2==0,means list has even numbers and with the help of our array we will print 2 mid values of list
+otherwise list has odd numbers and with the help of our array we will print 1 mid value of list
+
+==============================================================================================
+2 Survival of the Fittest
+=========================
+we have created two function
+
+->add function to add a node in linked list
+we will create a new node
+if list is empty then head will be NULL,this new node will become the head of the list
+if new node's data is less than head node's data then this new node will become head of list
+we will traverse the list and add the new node in sorted order
+we will also count number of nodes
+
+->function print median of linked list
+we will traverse till the half of count of number of node
+if counter%2==0,means number of nodes in list are even
+we will add 2 node's data divide it by and print it in float form
+otherwise number of nodes in list are odd and we will print mid node's data
+
+=================================================================================================
+3 Reversing the Irreversible
+============================
+we have created 3 functions
+
+->function to add transaction
+we will create a new node
+if head is NULL,means list is empty,we will make this new node head of list
+we are also holding last node of list so also make this new node last of list
+we will add new node to the last of list with the help of our last node
+now this new node will become last node of our list
+
+=>function to delete fraud transaction
+in this function we have ID of nodes that will delete
+if fraud transaction node is in the front of list 
+we will make head to its next node and delete it
+otherwise,we will traverse until we find node's ID
+if we find it we will delete that node make,we will join its previous node to its next node
+if the node that we want to delete is the last node then we will update the last pointer, previous node will become last node
+if we not find that node we will simply return
+
+=>function to print legal transactions
+if head is NULL,means list is empty
+we have apply recursion it will print all legal transaction's amount 
+
+================================================================================================
+4 The Editor (Difficulty: Hard)
+===============================
+we have created different functions for all differnet operation
+we have created a double linked list
+we are holding 3 position in this program with 3 pointers
+
+head-to hold first node of list
+last-to hold last node of program
+cursor-to hold node that have cursor pointing
+
+in every function i am also passing one parameter that is "per" 
+when we run each function that operation will store in Stack
+and from all those function some function will run when we will perform Undo operation
+so when we will perform Undo that operation should not be add in to stack because actual operation during Undo in Undo not specific function
+if per is "yes" mean we are performing that operation
+if per is "no" mean we are performing that operation in Undo
+
+lets discuss each function
+
+=>function to print all element
+this function simply print all the elements after every operation
+
+=>function to add newnode
+this function will add new node athe end of list
+if list is empty, new node will add and become head,last and cursor of list
+if list is not empty then newnode will add at the last of list with the help of last pointer without traversing
+
+=>function to delete last node from list
+if head is NULL list is empty
+if head == last means only one node is present in list and after deletion list will become empty so we will make our head,last,cursor =NULL
+otherwise last node will delete and we also check our cursor if our cursor pointing last node then we will move our cursor one step backward
+
+=> function to delete node at specefic index
+if index =0 node will become head
+otherwise traverse till the index and add
+we will also check either index is coming in the range of list length or not
+if index is at last node will add at last and become last
+if at cursor,node will become cursor
+if the new node will add before cursor or at cursor,then we have to move cursor one step backward
+
+=>delete at specific index
+if index =0 head will be delete and its next will become head
+if index is at last then last node will deleted and previous one will become last
+otherwise node between head and last
+if the node deleted before cursor or at cursor,then we have to move cursor one step forwardward
+
+=>function to move forward
+we will traverse from cursor to the steps mentioned
+if steps are valid cursor will point to the new index
+otherwise no operation will perform
+
+=>function to move backward
+we will traverse from cursor to the steps mentioned
+if steps are valid cursor will point to the new index
+otherwise no operation will perform
+
+=>function to addImmediate
+this function will add node just after the cursor
+if head == last ,one node in list,we will add it last and ecome last
+if cursor is at last node then this newnode will add again at last
+otherwise node will add between some where where coursor is present
+we also counting this newnode index for Undo operation
+
+=>function to delete cursor
+if head==last,one node is present in list we will delete it and our head,last and cursor will become NULL
+if cursor ==head then cursor will update to next node will become cursor  and head then we will delete older cursor
+if cursor==last then cursor will update to previous node,will become cursor and last then we will delete older cursor
+we also counting this newnode index and older cursor data for Undo operation
+
+=>function to print cursor
+simply print cursor data without traversing
+
+=>update value at certain index
+we will traverse till that index then update that node's value
+
+=>function to update cursor data
+simply update cursor data with the help of cursor pointer without traversing
+
+=>shift function
+we will traverse till that index and swap that node's data with our cursor data
+
+understand UNDO
+===============
+if we are adding at the last on list then its undo is to delete last value 
+
+if we are deleting last number then its undo is to add that number at last so we have to hold the value in Undo stack
+
+if we are adding number at any index then its undo is to delete that number from that index,so we have to hold index of number in Undo stack
+
+if we are deleting number from any index then its undo is to add that number at same index,so i have to hold index and number in Undo stack
+
+if we are moving cursor forward then it usdo is to move backward equal step, so we hold steps
+
+if we are moving cursor backward then it usdo is to move forward equal step, so we hold steps
+
+if we are adding number after cursor then its undo is to delete that number, so we apply delete index function and hold index
+
+if we are deleting cursor then its undo is to add number at cursor's position, so we hold cursor index
+
+if we are updating number at specific index hen its undo is to update again with previous value os same index, so we have hold previous number and index
+
+if we are updating cursor's number then its undo is to update again cursor's number with previous number, so we have to hold index
+
+if we are sifting curor's value with the index value then its undo is to reshift , so we hold index and cursor's number 
+
+================================================================================================
+5 As the Matter of Third
+========================
+we have 2 function
+
+=>function to add node in list
+nodes data should be greater than 0,otherwise node will not add in the list
+we will create a new node
+if head is NULL,means list is empty,we will make this new node head of list
+we are also holding last node of list so also make this new node last of list
+we will add new node to the last of list with the help of our last node
+now this new node will become last node of our list
+
+=>function to print 3rd last node's data
+we have created a double linked list, so we will traverse from the end of list
+traverse to 3rd last node
+if we come out of list before 3,means list have node less than 3,simply print -1
+otherwise we will print 3rd last node's data
