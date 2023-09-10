@@ -1,0 +1,112 @@
+#include<iostream>
+#include<fstream>
+#include<sstream>
+using namespace std;
+
+struct transaction{
+    int transactionId;
+    int transactionAmount;
+    transaction*next;
+};
+void addTransaction(transaction**head,transaction**last,int Tid,int Ta){
+    transaction*new_transaction=new transaction();
+    new_transaction->transactionId=Tid;
+    new_transaction->transactionAmount=Ta;
+    new_transaction->next=NULL;
+
+    if ((*head)==NULL)
+    {
+        (*head)=new_transaction;
+        (*last)=new_transaction;
+    }
+
+    else{
+        (*last)->next=new_transaction;
+        (*last)=new_transaction;    
+    }
+    
+}
+
+void deleteTransaction(transaction**head,transaction**last,int Tid){
+    if ((*head)->transactionId==Tid)
+    {
+        transaction*curr_transaction=(*head);
+        (*head)=curr_transaction->next;
+    }
+    else{
+        transaction*curr_transaction=(*head);
+        transaction*previous;
+        while (curr_transaction!=NULL)
+        {
+            if (curr_transaction->transactionId==Tid)
+            {
+                previous->next=curr_transaction->next;
+                if (previous->next==NULL)
+                {
+                    (*last)=previous;
+                }
+                break;
+            }
+            previous=curr_transaction;
+            curr_transaction=curr_transaction->next;
+        }
+        if (curr_transaction==NULL)
+        {
+            return;
+        }
+        
+    }
+    
+}
+
+void printTransaction(transaction*curr_transaction){
+    if (curr_transaction==NULL)
+    {
+        return;
+    }
+    cout<<curr_transaction->transactionId<<","<<curr_transaction->transactionAmount<<endl;
+    printTransaction(curr_transaction->next);
+}
+
+int main(){
+    transaction*head=NULL;
+    transaction*last=NULL;
+
+    string file_name;
+    cout<<"enter file name :";
+    cin>>file_name;                            // taking file name from user to read
+
+    ifstream file(file_name);                  // creating object of ifstream
+    string command;
+    getline(file,command);                     // transfering first line in command string variable
+
+    int Not,Noft;                              // Not for number_of_transaction and Noft for number_of_fraud_transaction
+    stringstream first_line(command);         // creating isstream object to read each word
+    first_line>>Not>>Noft;                    // putting values 
+
+    while (getline(file,command))              // reading rest of the file
+    {
+        stringstream ss(command);             // creating isstream object to extract integer from string line
+        int Tid,Ta;                            // Tid for transactionId,Ta for transactionAmount
+        char c;                                // putting extracted integer values in variable
+        ss>>Tid>>c>>Ta;
+        addTransaction(&head,&last,Tid,Ta);    // function to addTransaction
+        Not--;
+        if (Not==0)
+        {
+            break;
+        }
+    }
+
+    while (getline(file,command))                // reading fraud transactions from file
+    {
+        stringstream ss(command);
+        int Tid;
+        
+        ss>>Tid;                                // putting extracted integer values in variable
+        deleteTransaction(&head,&last,Tid);     // function to delete fraud transaction
+        
+    }
+
+    printTransaction(head);
+}

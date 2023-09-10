@@ -1,0 +1,132 @@
+#include<iostream>
+#include<vector>
+#include<fstream>
+#include<sstream>
+
+using namespace std;
+struct node{
+    int data;
+    node*next;
+};
+
+void printelement(node*current){      // print elements of linked list
+    while (current!=NULL)
+    {
+        cout<<current->data<<" -> ";
+        current=current->next;
+    }
+
+    cout<<" NULL"<<endl;
+}
+
+void ADD_element(node**head,int num,int &counter,vector<int>&v){      //add function to add a node in linked list
+    node*newnode=new node();
+    newnode->data=num;
+    newnode->next=NULL;
+    if (*head==NULL)
+    {
+        
+        *head=newnode;
+        counter++;
+        v.push_back(newnode->data);
+    }
+    else{
+        node*current_node=*head;
+        node*previous=current_node;
+        bool t=false;
+        while (current_node!=NULL)
+        {
+            if (newnode->data==current_node->data)
+            {
+                t=true;
+                break;
+            }
+            previous=current_node;
+            current_node=current_node->next;
+        }
+        if (t==false)
+        {
+            previous->next=newnode;
+            counter++;
+            v.push_back(newnode->data);
+        }
+        else{
+            cout<<"number is already exit in list, cannot perform operation"<<endl;
+        }
+    }
+}
+
+void DELETE_element(node**head,int &counter,vector<int>&v){           //delete function from linked list
+    if (*head==NULL)
+    {
+         return;
+    }
+    else{
+        node*current=*head;
+        node*previous=current;
+        while (current->next!=NULL)
+        {
+            previous=current;
+            current=current->next;
+        }
+        previous->next=NULL;
+        delete(current);
+        v.pop_back();
+        counter--;
+    }
+    if (counter==0)
+    {
+        *head=NULL;
+    }
+    
+}
+
+void Get_Trump(int &counter,vector<int>&v){        // print mid element(s) of linked list
+    if (counter==0)
+    {
+        cout<<"list is empty"<<endl;
+    }
+    
+    else if (counter%2==0)
+    {
+        cout<<v[(counter/2)-1]<<" and "<<v[(counter/2)]<<endl;
+    }
+    else{
+        cout<<v[counter/2]<<endl;
+    }
+    
+}
+int main(){
+    node*head=NULL;
+    int counter=0;
+
+    vector<int>v;
+
+    string file_name;
+    cout<<"enter file name :";
+    cin>>file_name;
+    
+    ifstream file(file_name);
+    string command;
+    while (getline(file,command))
+    {
+        stringstream ss(command);
+        string word;
+        int num;
+        ss>>word>>num;
+        if (word=="ADD")
+        {
+            ADD_element(&head,num,counter,v);
+        }
+        else if (word=="DELETE")
+        {
+            DELETE_element(&head,counter,v);
+        }
+        else{
+            break;
+        }
+    }
+    Get_Trump(counter,v);
+    
+        
+}

@@ -1,0 +1,95 @@
+#include<iostream>
+#include<fstream>
+#include<sstream>
+using namespace std;
+
+struct node{
+    int number;
+    node*next;
+};
+
+void printmedian(node*current,int counter){      // print elements of linked list
+    
+    int c=0;
+    node*previous=current;
+    while (c!=(counter/2))
+    {
+        previous=current;
+        current=current->next;
+        c++;
+    }
+    
+    if (counter%2==0)
+    {
+        cout<<"median "<<(float)(previous->number+(current->number))/2<<endl;
+    }
+    else{
+        cout<<"median "<<current->number<<endl;
+    }
+    
+}
+
+
+void ADD_element(node**head,int num,int &counter){      //add function to add a node in linked list
+    node*newnode=new node();
+    newnode->number=num;
+    newnode->next=NULL;
+
+    if ((*head)==NULL)
+    {
+        *head=newnode;
+    }
+    else if (num<=(*head)->number)
+    {
+        newnode->next=*head;
+        *head=newnode;   
+    }
+    
+    else{
+        node*current=(*head);
+        node*previous=current;
+        while (current!=NULL)
+        {
+            if(num<=current->number){
+                previous->next=newnode;
+                newnode->next=current;
+                break;
+            }
+            previous=current;
+            current=current->next;
+        }
+        if (current==NULL)
+        {
+            previous->next=newnode;
+        }
+        
+    }
+    counter++;
+}
+int main(){
+    node*head=NULL;
+    node*last=NULL;
+    int counter=0;
+
+    string file_name;                 
+    cout<<"enter file name :";
+    cin>>file_name;                  // taking file name from user
+    
+    ifstream file(file_name);        // ifstream object
+    string command;  
+    while (getline(file,command))    // reading each line
+    {
+        istringstream ss(command);    // s stream object
+        string word;
+        while (ss>>word)             // reading each word of line,giving it to word variable(string)
+        {
+            istringstream mynum(word);  
+            int num;
+            mynum>>num;                       // assigning integer in to num variable
+            ADD_element(&head,num,counter);
+            printmedian(head,counter);
+        }
+        
+        
+    }
+}
